@@ -1,50 +1,46 @@
 """
-RetroPad Action Button (Fire / Jump) - build123d script
-Reconstructs one circular action button.
-
-The same geometry is used for both the Fire and Jump buttons.
-Features:
- - Outer flange: 11mm diameter, 1mm thick (sits in shell aperture)
- - Cap: 9mm diameter, 2.5mm tall dome-like cylinder
- - Bottom stem: 4mm dia, 2mm long (engages switch actuator)
- - 0.4mm chamfer on flange-to-cap transition (cosmetic)
+RetroPad Action Button - build123d script
 """
 
+import os
 from build123d import *
 
-# ─── Parameters ────────────────────────────────────────────────────────────────
-FLANGE_R    = 5.5     # matches the shell aperture radius exactly
-FLANGE_H    = 1.0
-CAP_R       = 4.5
-CAP_H       = 2.5
-STEM_R      = 2.0
-STEM_H      = 2.0
-TOP_FILLET  = 1.0
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT  = os.path.join(HERE, "..", "generated")
+os.makedirs(OUT, exist_ok=True)
 
-# ─── Build ─────────────────────────────────────────────────────────────────────
-with BuildPart() as action_btn:
+FLANGE_R =  5.5
+FLANGE_H =  1.0
+CAP_R    =  4.5
+CAP_H    =  2.5
+TOP_FIL  =  1.0
+STEM_R   =  2.0
+STEM_H   =  2.0
 
-    # 1. Retention flange (sits under the shell surface)
+with BuildPart() as p:
+
+    # 1 - Retention flange
     Cylinder(radius=FLANGE_R, height=FLANGE_H)
 
-    # 2. Cap body above flange
-    with Locations((0, 0, FLANGE_H)):
-        Cylinder(radius=CAP_R, height=CAP_H)
+    # 2 - Cap on top of flange
+    with BuildSketch(Plane.XY.offset(FLANGE_H)):
+        Circle(CAP_R)
+    extrude(amount=CAP_H)
 
-    # 3. Round the top face of the cap for comfort
-    top_edges = action_btn.edges().sort_by(Axis.Z)[-1:]
+    # 3 - Fillet top edge
+    top_edge = p.edges().sort_by(Axis.Z)[-1]
     try:
-        fillet(top_edges, radius=TOP_FILLET)
-    except Exception:
-        pass
+        fillet(top_edge, radius=TOP_FIL)
+    except Exception as e:
+        print(f"  (fillet skipped: {e})")
 
-    # 4. Stem below flange (protruding downward, engages switch)
-    with Locations((0, 0, -STEM_H)):
-        Cylinder(radius=STEM_R, height=STEM_H)
+    # 4 - Actuator stem below flange
+    with BuildSketch(Plane.XY.offset(-STEM_H)):
+        Circle(STEM_R)
+    extrude(amount=STEM_H)
 
-# ─── Export ────────────────────────────────────────────────────────────────────
-btn_solid = action_btn.part
-export_stl(btn_solid, "generated/action_button.stl")
-export_step(btn_solid, "generated/action_button.step")
-print(f"Action Button volume: {btn_solid.volume:.2f} mm³")
-print("Exported: generated/action_button.stl  |  generated/action_button.step")
+solid = p.part
+export_stl(solid, os.path.join(OUT, "action_button.stl"))
+export_step(solid, os.path.join(OUT, "action_button.step"))
+print(f"Action Button volume: {solid.volume:.2f} mm3")
+print(f"Exported to {OUT}")
