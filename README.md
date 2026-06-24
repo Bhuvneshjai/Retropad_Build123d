@@ -4,7 +4,7 @@ Parametric CAD reconstruction of the [jtgans/RetroPad](https://github.com/jtgans
 gamepad case using **build123d** — a Python-based BREP modeling framework built on Open Cascade.
 
 > **Repository:** [https://github.com/Bhuvneshjai/Retropad_Build123d](https://github.com/Bhuvneshjai/Retropad_Build123d)
-> **Reference Hardware:** [jtgans/RetroPad](https://github.com/jtgans/RetroPad) — A gamepad designed for retrogaming on '80s computers (Commodore, Atari, etc.)
+> **Reference Repository:** [jtgans/RetroPad](https://github.com/jtgans/RetroPad) — A gamepad designed for retrogaming on '80s computers (Commodore, Atari, etc.)
 
 ---
 
@@ -81,6 +81,14 @@ Navigate to `RetroPad/case/` and copy the STL files into this repo's `reference/
 | Shell Bottom STL                  | `shell_bottom_ref.stl`        |
 | D-Pad STL                         | `dpad_ref.stl`                |
 | Button STL (Fire/Jump)            | `action_button_ref.stl`       |
+
+OR
+
+If you want directly run the code then you can clone current repository.
+
+```bash
+git clone https://github.com/Bhuvneshjai/Retropad_Build123d.git
+```
 
 ### Step 2 — Create Output Directories
 
