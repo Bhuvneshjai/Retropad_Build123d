@@ -210,5 +210,4 @@ The `validate_geometry.py` script:
 
 ## License
 
-Scripts: MIT License.  
 RetroPad hardware design: GPL-2.0 (see [jtgans/RetroPad](https://github.com/jtgans/RetroPad/blob/master/COPYING)).
