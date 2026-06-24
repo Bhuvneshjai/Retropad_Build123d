@@ -84,7 +84,7 @@ Navigate to `RetroPad/case/` and copy the STL files into this repo's `reference/
 
 OR
 
-If you want directly run the code then you can clone current repository.
+If you want directly run the code then you can clone current repository and follow the step from Step 3
 
 ```bash
 git clone https://github.com/Bhuvneshjai/Retropad_Build123d.git
